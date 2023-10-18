@@ -99,7 +99,7 @@ Once the application is up and running, you can interact with the API using the 
 - **Authentication:** Requires authentication and cashier role.
 - **Query Parameters:** `page` (default: 1), `size` (default: 10) --> IN PROGRESS
 
-#### Insert a New Product
+### Insert a New Product
 
 - **Endpoint:** `POST /v1/product`
 - **Description:** Insert a new product.
