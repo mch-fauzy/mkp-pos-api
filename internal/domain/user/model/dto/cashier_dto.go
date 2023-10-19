@@ -67,14 +67,8 @@ type LoginResponse struct {
 	Token string `json:"token"`
 }
 
-type LoginResponseList []LoginResponse
-
-func NewLoginResponse(token string) LoginResponse {
+func BuildLoginResponse(token string) LoginResponse {
 	return LoginResponse{
 		Token: token,
 	}
-}
-
-func BuildLoginResponse(token string) LoginResponseList {
-	return LoginResponseList{NewLoginResponse(token)}
 }

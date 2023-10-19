@@ -7,7 +7,7 @@ import (
 
 type ProductService interface {
 	CreateNewProduct(req dto.CreateProductRequest) (string, error)
-	GetProductList() (dto.ProductListResponse, error)
+	GetProductList(req dto.ViewProductRequest) (dto.ProductListResponse, dto.Pagination, error)
 }
 
 func (s *SaleServiceImpl) CreateNewProduct(req dto.CreateProductRequest) (string, error) {
@@ -24,13 +24,16 @@ func (s *SaleServiceImpl) CreateNewProduct(req dto.CreateProductRequest) (string
 	return message, nil
 }
 
-func (s *SaleServiceImpl) GetProductList() (dto.ProductListResponse, error) {
+func (s *SaleServiceImpl) GetProductList(req dto.ViewProductRequest) (dto.ProductListResponse, dto.Pagination, error) {
 
-	product, err := s.SaleRepository.GetProducts()
+	paginationFilter := req.ToPaginationModel()
+	product, err := s.SaleRepository.GetProducts(paginationFilter)
 	if err != nil {
 		log.Error().Err(err).Msg("[GetProductList] Failed to retrieve product list")
-		return dto.ProductListResponse{}, err
+		return dto.ProductListResponse{}, dto.Pagination{}, err
 	}
 
-	return dto.BuildProductListResponse(product), nil
+	result := dto.BuildProductListResponse(product)
+	paginationMetadata := dto.BuildMetadata(req.Page, req.PageSize)
+	return result, paginationMetadata, nil
 }

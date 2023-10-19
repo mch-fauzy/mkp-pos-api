@@ -9,7 +9,7 @@ import (
 
 type CashierService interface {
 	RegisterCashier(req dto.RegisterCashierRequest) (string, error)
-	LoginCashier(req dto.LoginCashierRequest) (dto.LoginResponseList, error)
+	LoginCashier(req dto.LoginCashierRequest) (dto.LoginResponse, error)
 }
 
 func (s *UserServiceImpl) RegisterCashier(req dto.RegisterCashierRequest) (string, error) {
@@ -33,25 +33,25 @@ func (s *UserServiceImpl) RegisterCashier(req dto.RegisterCashierRequest) (strin
 	return message, nil
 }
 
-func (s *UserServiceImpl) LoginCashier(req dto.LoginCashierRequest) (dto.LoginResponseList, error) {
+func (s *UserServiceImpl) LoginCashier(req dto.LoginCashierRequest) (dto.LoginResponse, error) {
 
 	user, err := s.UserRepository.GetUserByUsername(req.Username)
 	if err != nil {
 		log.Error().Err(err).Msg("[LoginCashier] Failed to retrieve user")
-		return dto.LoginResponseList{}, err
+		return dto.LoginResponse{}, err
 	}
 
 	err = shared.VerifyPassword(req.Password, user.Password)
 	if err != nil {
 		log.Error().Err(err).Msg("[LoginCashier] Password verification failed")
 		err = failure.Unauthorized("Invalid credentials")
-		return dto.LoginResponseList{}, err
+		return dto.LoginResponse{}, err
 	}
 
 	token, err := shared.SignJWTToken(user.Username, user.Role, []byte(s.CFG.App.JWTAccessKey))
 	if err != nil {
 		log.Error().Err(err).Msg("[LoginCashier] Failed to sign JWT token")
-		return dto.LoginResponseList{}, err
+		return dto.LoginResponse{}, err
 	}
 
 	return dto.BuildLoginResponse(token), nil

@@ -16,7 +16,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc2OTIwMjMsInJvbGUiOiJjYXNoaWVyIiwidXNlcm5hbWUiOiJjYXNoaWVyMSJ9.Vss5XZ96wKEn9IzPRQ7gP58rmHuEz2Sxb75tLW8IiB8",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc3NDAwODYsInJvbGUiOiJjYXNoaWVyIiwidXNlcm5hbWUiOiJjYXNoaWVyMSJ9.gAmF-dWNmUlZb9KI7S1Z4hDKF-GyVCxbS40X75D9Xz0",
 								"type": "text"
 							}
 						],
@@ -54,7 +54,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc2OTIwMjMsInJvbGUiOiJjYXNoaWVyIiwidXNlcm5hbWUiOiJjYXNoaWVyMSJ9.Vss5XZ96wKEn9IzPRQ7gP58rmHuEz2Sxb75tLW8IiB8",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc3NDkzNTEsInJvbGUiOiJjYXNoaWVyIiwidXNlcm5hbWUiOiJjYXNoaWVyMSJ9.s-EGo-qFvQJgO2y7BhsCnjRO532U8d4GEDJaN1kg5j4",
 								"type": "text"
 							}
 						],
@@ -68,7 +68,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/v1/products",
+							"raw": "http://localhost:8080/v1/products?page=1&pageSize=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -77,6 +77,16 @@
 							"path": [
 								"v1",
 								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
 							]
 						}
 					},

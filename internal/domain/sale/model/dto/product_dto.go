@@ -7,7 +7,12 @@ import (
 
 	"github.com/guregu/null"
 	"github.com/mkp-pos-cashier-api/internal/domain/sale/model"
+	"github.com/mkp-pos-cashier-api/shared"
 	"github.com/mkp-pos-cashier-api/shared/failure"
+)
+
+const (
+	notDigitPattern = "^[0-9]+$"
 )
 
 type CreateProductRequest struct {
@@ -16,10 +21,6 @@ type CreateProductRequest struct {
 	Stock    int    `json:"stock"`
 	Username string `json:"-"`
 }
-
-const (
-	notDigitPattern = "^[0-9]+$"
-)
 
 func (c CreateProductRequest) Validate() error {
 	if c.Name == "" {
@@ -61,6 +62,45 @@ func (c CreateProductRequest) ToModel() model.CreateProduct {
 	}
 }
 
+type ViewProductRequest struct {
+	Page     int `json:"-"`
+	PageSize int `json:"-"`
+}
+
+func BuildViewProductRequest(page, pageSize int) ViewProductRequest {
+	if page == 0 {
+		page = shared.DefaultPage
+	}
+
+	if pageSize == 0 {
+		pageSize = shared.DefaultPageSize
+	}
+
+	return ViewProductRequest{
+		Page:     page,
+		PageSize: pageSize,
+	}
+}
+
+func (v ViewProductRequest) Validate() error {
+	if v.Page < 0 {
+		return failure.BadRequestFromString("Page must be a positive integer")
+	}
+
+	if v.PageSize < 0 {
+		return failure.BadRequestFromString("PageSize must be a positive integer")
+	}
+
+	return nil
+}
+
+func (v ViewProductRequest) ToPaginationModel() model.Pagination {
+	return model.Pagination{
+		Page:     v.Page,
+		PageSize: v.PageSize,
+	}
+}
+
 type ProductResponse struct {
 	Id        int         `json:"id"`
 	Name      string      `json:"name"`
@@ -71,7 +111,7 @@ type ProductResponse struct {
 	UpdatedAt time.Time   `json:"updatedAt"`
 	UpdatedBy string      `json:"updatedBy"`
 	DeletedAt null.Time   `json:"deletedAt"`
-	DeletedBy null.String `json:"deletedBy"`
+	DeletedBy null.String `json:"DeletedBy"`
 }
 
 type ProductListResponse []ProductResponse

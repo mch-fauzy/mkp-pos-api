@@ -117,7 +117,7 @@ Once the application is up and running, you can interact with the API using the 
 - **Endpoint:** `GET /v1/products`
 - **Description:** View all product
 - **Authentication:** Requires authentication and cashier role.
-- **Query Parameters:** `page` (default: 1), `size` (default: 10) --> IN PROGRESS
+- **Query Parameters:** `page` (default: 1), `pageSize` (default: 10)
 
 ### Insert a New Product
 

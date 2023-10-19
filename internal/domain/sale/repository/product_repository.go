@@ -21,7 +21,7 @@ const (
 	WHERE
 		id = $1
 	`
-	selectProduct = `
+	selectProductQuery = `
 	SELECT
 		id,
 		name,
@@ -36,11 +36,14 @@ const (
 	FROM
 		"product"
 	`
+	paginationQuery = `
+	LIMIT $1 OFFSET $2
+	`
 )
 
 type ProductRepository interface {
 	CreateProduct(createtProduct *model.CreateProduct) error
-	GetProducts() (model.ProductList, error)
+	GetProducts(pagination model.Pagination) (model.ProductList, error)
 }
 
 func (r *SaleRepositoryPostgres) CreateProduct(createtProduct *model.CreateProduct) error {
@@ -75,11 +78,16 @@ func (r *SaleRepositoryPostgres) IsExistProductById(id int) (bool, error) {
 	return count > 0, nil
 }
 
-func (r *SaleRepositoryPostgres) GetProducts() (model.ProductList, error) {
-	query := fmt.Sprintf(selectProduct)
+func (r *SaleRepositoryPostgres) GetProducts(pagination model.Pagination) (model.ProductList, error) {
+	query := fmt.Sprintf(selectProductQuery)
+
+	var args []interface{}
+	query += paginationQuery
+	offset := (pagination.Page - 1) * pagination.PageSize
+	args = append(args, pagination.PageSize, offset)
 
 	var product model.ProductList
-	err := r.DB.Read.Select(&product, query)
+	err := r.DB.Read.Select(&product, query, args...)
 	if err != nil {
 		log.Error().
 			Err(err).

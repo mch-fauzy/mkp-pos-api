@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"github.com/mkp-pos-cashier-api/internal/domain/sale/model/dto"
 	"github.com/mkp-pos-cashier-api/shared"
@@ -23,12 +24,6 @@ import (
 // @Security BearerAuth
 // @Router /v1/products [post]
 func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
-	username, err := shared.GetUsernameFromContext(r)
-	if err != nil {
-		response.WithError(w, err)
-		return
-	}
-
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		response.WithError(w, err)
@@ -37,6 +32,12 @@ func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 
 	var request dto.CreateProductRequest
 	err = json.Unmarshal(body, &request)
+	if err != nil {
+		response.WithError(w, err)
+		return
+	}
+
+	username, err := shared.GetUsernameFromContext(r)
 	if err != nil {
 		response.WithError(w, err)
 		return
@@ -61,6 +62,8 @@ func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 // @Summary View product
 // @Description This endpoint for view all product.
 // @Tags sale
+// @Param page query string false "Number of page"
+// @Param pageSize query string false "Total data per Page"
 // @Produce json
 // @Success 200 {object} response.Base
 // @Failure 400 {object} response.Base
@@ -69,11 +72,20 @@ func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 // @Security BearerAuth
 // @Router /v1/products [get]
 func (h *SaleHandler) ViewProduct(w http.ResponseWriter, r *http.Request) {
+	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+	pageSize, _ := strconv.Atoi(r.URL.Query().Get("pageSize"))
 
-	result, err := h.SaleService.GetProductList()
+	request := dto.BuildViewProductRequest(page, pageSize)
+	err := request.Validate()
 	if err != nil {
 		response.WithError(w, err)
 		return
 	}
-	response.WithJSON(w, http.StatusOK, result)
+
+	result, metadata, err := h.SaleService.GetProductList(request)
+	if err != nil {
+		response.WithError(w, err)
+		return
+	}
+	response.WithMetadata(w, http.StatusOK, result, metadata)
 }
