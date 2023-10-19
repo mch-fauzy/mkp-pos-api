@@ -2,6 +2,16 @@
 
 # Mitra Kasih Perkasa POS API
 
+A Point of Sale (POS) API for Managing Sales and Inventory
+
+## Table of Contents
+
+- [Description](#description)
+- [Setup and Installation](#setup-and-installation)
+- [Swagger Documentation](#swagger-documentation)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+
 ## Description
 
 ![cashier-login](mkp-pos-cashier-login.jpg)
