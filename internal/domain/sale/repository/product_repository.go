@@ -28,17 +28,6 @@ type ProductRepository interface {
 }
 
 func (r *SaleRepositoryPostgres) CreateProduct(createtProduct *model.CreateProduct) error {
-
-	// exist, err := r.IsExistProductById(createtProduct.Id)
-	// if err != nil {
-	// 	log.Error().Err(err).Msg("[CreateProduct] Failed checking product whether already exists or not")
-	// 	return err
-	// }
-	// if exist {
-	// 	err = failure.Conflict("create", "product", "already exists")
-	// 	return err
-	// }
-
 	query := fmt.Sprintf(createNewProductQuery)
 	_, err := r.DB.Write.Exec(
 		query,
