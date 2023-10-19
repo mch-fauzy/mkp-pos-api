@@ -62,9 +62,9 @@ func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 // @Summary View product
 // @Description This endpoint for view all product.
 // @Tags sale
+// @Produce json
 // @Param page query string false "Number of page"
 // @Param pageSize query string false "Total data per Page"
-// @Produce json
 // @Success 200 {object} response.Base
 // @Failure 400 {object} response.Base
 // @Failure 404 {object} response.Base
