@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/guregu/null"
 	"github.com/mkp-pos-cashier-api/internal/domain/sale/model"
 	"github.com/mkp-pos-cashier-api/shared/failure"
 )
@@ -58,4 +59,42 @@ func (c CreateProductRequest) ToModel() model.CreateProduct {
 		UpdatedAt: currentTime,
 		UpdatedBy: username,
 	}
+}
+
+type ProductResponse struct {
+	Id        int         `json:"id"`
+	Name      string      `json:"name"`
+	Category  string      `json:"category"`
+	Stock     int         `json:"stock"`
+	CreatedAt time.Time   `json:"createdAt"`
+	CreatedBy string      `json:"createdBy"`
+	UpdatedAt time.Time   `json:"updatedAt"`
+	UpdatedBy string      `json:"updatedBy"`
+	DeletedAt null.Time   `json:"deletedAt"`
+	DeletedBy null.String `json:"deletedBy"`
+}
+
+type ProductListResponse []ProductResponse
+
+func NewProductListResponse(product model.Product) ProductResponse {
+	return ProductResponse{
+		Id:        product.Id,
+		Name:      product.Name,
+		Category:  product.Category,
+		Stock:     product.Stock,
+		CreatedAt: product.CreatedAt,
+		CreatedBy: product.CreatedBy,
+		UpdatedAt: product.UpdatedAt,
+		UpdatedBy: product.UpdatedBy,
+		DeletedAt: product.DeletedAt,
+		DeletedBy: product.DeletedBy,
+	}
+}
+
+func BuildProductListResponse(productList model.ProductList) ProductListResponse {
+	results := ProductListResponse{}
+	for _, product := range productList {
+		results = append(results, NewProductListResponse(*product))
+	}
+	return results
 }

@@ -56,3 +56,24 @@ func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	response.WithMessage(w, http.StatusCreated, msg)
 }
+
+// ViewProduct View all product
+// @Summary View product
+// @Description This endpoint for view all product.
+// @Tags sale
+// @Produce json
+// @Success 200 {object} response.Base
+// @Failure 400 {object} response.Base
+// @Failure 404 {object} response.Base
+// @Failure 500 {object} response.Base
+// @Security BearerAuth
+// @Router /v1/products [get]
+func (h *SaleHandler) ViewProduct(w http.ResponseWriter, r *http.Request) {
+
+	result, err := h.SaleService.GetProductList()
+	if err != nil {
+		response.WithError(w, err)
+		return
+	}
+	response.WithJSON(w, http.StatusOK, result)
+}

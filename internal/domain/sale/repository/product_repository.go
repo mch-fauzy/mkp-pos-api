@@ -21,10 +21,26 @@ const (
 	WHERE
 		id = $1
 	`
+	selectProduct = `
+	SELECT
+		id,
+		name,
+		category,
+		stock,
+		created_at,
+		created_by,
+		updated_at,
+		updated_by,
+		deleted_at,
+		deleted_by
+	FROM
+		"product"
+	`
 )
 
 type ProductRepository interface {
 	CreateProduct(createtProduct *model.CreateProduct) error
+	GetProducts() (model.ProductList, error)
 }
 
 func (r *SaleRepositoryPostgres) CreateProduct(createtProduct *model.CreateProduct) error {
@@ -57,4 +73,20 @@ func (r *SaleRepositoryPostgres) IsExistProductById(id int) (bool, error) {
 		return false, err
 	}
 	return count > 0, nil
+}
+
+func (r *SaleRepositoryPostgres) GetProducts() (model.ProductList, error) {
+	query := fmt.Sprintf(selectProduct)
+
+	var product model.ProductList
+	err := r.DB.Read.Select(&product, query)
+	if err != nil {
+		log.Error().
+			Err(err).
+			Msg("[GetProducts] Failed to get product")
+		err = failure.InternalError(err)
+		return model.ProductList{}, err
+	}
+
+	return product, nil
 }

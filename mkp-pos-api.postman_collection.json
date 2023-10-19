@@ -10,13 +10,51 @@
 			"name": "sale",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "Create Product",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc2ODY0MjcsInJvbGUiOiJjYXNoaWVyIiwidXNlcm5hbWUiOiJjYXNoaWVyIn0.6pVbFteuYqViDF-I-2VBvDprf9cU6QSxnn38y3r1DGU",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc2OTIwMjMsInJvbGUiOiJjYXNoaWVyIiwidXNlcm5hbWUiOiJjYXNoaWVyMSJ9.Vss5XZ96wKEn9IzPRQ7gP58rmHuEz2Sxb75tLW8IiB8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ayam\",\r\n    \"category\": \"makanan\",\r\n    \"stock\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc2OTIwMjMsInJvbGUiOiJjYXNoaWVyIiwidXNlcm5hbWUiOiJjYXNoaWVyMSJ9.Vss5XZ96wKEn9IzPRQ7gP58rmHuEz2Sxb75tLW8IiB8",
 								"type": "text"
 							}
 						],
@@ -86,7 +124,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"cashier\",\r\n    \"password\":\"cashierpass\"\r\n}",
+							"raw": "{\r\n    \"username\":\"cashier1\",\r\n    \"password\":\"cashier1password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

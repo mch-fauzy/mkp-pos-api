@@ -25,6 +25,7 @@ func (h *SaleHandler) Router(r chi.Router) {
 		r.Group(func(r chi.Router) {
 			r.Use(h.Authentication.IsCashier)
 			r.Post("/products", h.CreateNewProduct)
+			r.Get("/products", h.ViewProduct)
 		})
 	})
 }
