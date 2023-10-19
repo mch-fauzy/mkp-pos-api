@@ -2,11 +2,12 @@
 
 # Mitra Kasih Perkasa POS API
 
-A Point of Sale (POS) API for Managing Sales and Inventory
+A Point of Sale (POS) API for Managing Sales and Inventory with JWT Authorization and Authentication
 
 ## Table of Contents
 
 - [Description](#description)
+- [Key Features](#key-features)
 - [Setup and Installation](#setup-and-installation)
 - [Swagger Documentation](#swagger-documentation)
 - [API Endpoints](#api-endpoints)
@@ -54,6 +55,14 @@ The provided design outlines the schema for a Point of Sale (POS) Cashier system
    - The 'product_id' field in the 'sale_item' table references the 'id' field in the 'product' table, indicating which product is being sold.
 
 The design ensures that information about users, customers, products, and sales is structured logically and can be efficiently retrieved and managed. The system allows for tracking sales, managing stock, and providing insights into sales and customer data.
+
+## Key Features
+
+- **JWT Authorization and Authentication**: Secure your API endpoints with JSON Web Token (JWT) authorization and authentication, ensuring that only authorized users can access protected resources.
+- **User Management**: Manage system users, including cashiers and administrators, with role-based access control.
+- **Sales Management (Not Implemented)**: Record and track sales transactions, including customer information, sale items, and total amounts.
+- **Product Inventory**: Maintain an inventory of available products, including their names, categories, and stock quantities.
+- **Swagger Documentation**: Easily explore and test your API using Swagger UI, with interactive documentation for all available endpoints.
 
 ## Setup and Installation
 
