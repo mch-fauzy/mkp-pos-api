@@ -37,7 +37,7 @@ func (a *Authentication) VerifyJWT(next http.Handler) http.Handler {
 
 		// Check if the token is present
 		if tokenString == "" {
-			response.WithMessage(w, http.StatusUnauthorized, "Unauthorized")
+			response.WithMessage(w, http.StatusUnauthorized, "Invalid token")
 			return
 		}
 
@@ -58,7 +58,13 @@ func (a *Authentication) VerifyJWT(next http.Handler) http.Handler {
 				return nil, jwt.ErrInvalidKeyType
 			}
 
+			userUsername, ok := claims["username"].(string)
+			if !ok {
+				return nil, jwt.ErrInvalidKeyType
+			}
+
 			ctx := shared.WithRole(r.Context(), userRole)
+			ctx = shared.WithUsername(ctx, userUsername)
 			r = r.WithContext(ctx)
 
 			return []byte(a.CFG.App.JWTAccessKey), nil

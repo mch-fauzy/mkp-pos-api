@@ -13,7 +13,7 @@ const (
 	INSERT INTO "user" (id, username, password, role, created_at, created_by, updated_at, updated_by) 
 	VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 	`
-	checkUserbyUsernameQuery = `
+	checkUserByUsernameQuery = `
 	SELECT
 		COUNT(username)
 	FROM
@@ -71,7 +71,7 @@ func (r *UserRepositoryPostgres) CreateUser(createtUser *model.CreateUser) error
 }
 
 func (r *UserRepositoryPostgres) IsExistUserByUsername(username string) (bool, error) {
-	query := fmt.Sprintf(checkUserbyUsernameQuery)
+	query := fmt.Sprintf(checkUserByUsernameQuery)
 	count := 0
 	err := r.DB.Read.Get(&count, query, username)
 	if err != nil {

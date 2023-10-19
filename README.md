@@ -94,17 +94,17 @@ Once the application is up and running, you can interact with the API using the 
 
 ### Read All Product
 
-- **Endpoint:** `GET /v1/product`
+- **Endpoint:** `GET /v1/products`
 - **Description:** View all product
 - **Authentication:** Requires authentication and cashier role.
 - **Query Parameters:** `page` (default: 1), `size` (default: 10) --> IN PROGRESS
 
 ### Insert a New Product
 
-- **Endpoint:** `POST /v1/product`
+- **Endpoint:** `POST /v1/products`
 - **Description:** Insert a new product.
 - **Authentication:** Requires authentication and cashier role.
-- **Request Body Parameters:** `id`, `name`, `category`, and `stock`
+- **Request Body Parameters:** `name`, `category`, and `stock`
 
 ## Contributing
 
