@@ -1,24 +1,24 @@
-package sale
+package product
 
 import (
 	"github.com/go-chi/chi"
-	"github.com/mkp-pos-cashier-api/internal/domain/sale/service"
+	"github.com/mkp-pos-cashier-api/internal/domain/product/service"
 	"github.com/mkp-pos-cashier-api/transport/http/middleware"
 )
 
-type SaleHandler struct {
-	SaleService    service.SaleService
+type ProductHandler struct {
+	ProductService service.ProductService
 	Authentication *middleware.Authentication
 }
 
-func ProvideSaleHandler(saleService service.SaleService, auth *middleware.Authentication) SaleHandler {
-	return SaleHandler{
-		SaleService:    saleService,
+func ProvideProductHandler(productService service.ProductService, auth *middleware.Authentication) ProductHandler {
+	return ProductHandler{
+		ProductService: productService,
 		Authentication: auth,
 	}
 }
 
-func (h *SaleHandler) Router(r chi.Router) {
+func (h *ProductHandler) Router(r chi.Router) {
 
 	r.Route("/", func(r chi.Router) {
 		r.Use(h.Authentication.VerifyJWT)

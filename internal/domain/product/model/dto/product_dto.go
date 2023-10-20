@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/guregu/null"
-	"github.com/mkp-pos-cashier-api/internal/domain/sale/model"
+	"github.com/mkp-pos-cashier-api/internal/domain/product/model"
 	"github.com/mkp-pos-cashier-api/shared"
 	"github.com/mkp-pos-cashier-api/shared/failure"
 )

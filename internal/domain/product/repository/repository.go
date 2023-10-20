@@ -4,16 +4,16 @@ import (
 	"github.com/mkp-pos-cashier-api/infras"
 )
 
-type SaleRepository interface {
-	ProductRepository
+type ProductRepository interface {
+	ProductManagementRepository
 }
 
-type SaleRepositoryPostgres struct {
+type ProductRepositoryPostgres struct {
 	DB *infras.PostgreSQLConn
 }
 
-func ProvideSaleRepositoryPostgres(db *infras.PostgreSQLConn) *SaleRepositoryPostgres {
-	return &SaleRepositoryPostgres{
+func ProvideProductRepositoryPostgres(db *infras.PostgreSQLConn) *ProductRepositoryPostgres {
+	return &ProductRepositoryPostgres{
 		DB: db,
 	}
 }

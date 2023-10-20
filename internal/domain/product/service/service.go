@@ -1,19 +1,19 @@
 package service
 
 import (
-	"github.com/mkp-pos-cashier-api/internal/domain/sale/repository"
+	"github.com/mkp-pos-cashier-api/internal/domain/product/repository"
 )
 
-type SaleService interface {
-	ProductService
+type ProductService interface {
+	ProductManagementService
 }
 
-type SaleServiceImpl struct {
-	SaleRepository repository.SaleRepository
+type ProductServiceImpl struct {
+	ProductRepository repository.ProductRepository
 }
 
-func ProvideSaleServiceImpl(saleRepository repository.SaleRepository) *SaleServiceImpl {
-	return &SaleServiceImpl{
-		SaleRepository: saleRepository,
+func ProvideProductServiceImpl(productRepository repository.ProductRepository) *ProductServiceImpl {
+	return &ProductServiceImpl{
+		ProductRepository: productRepository,
 	}
 }

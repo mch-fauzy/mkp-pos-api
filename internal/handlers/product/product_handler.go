@@ -1,4 +1,4 @@
-package sale
+package product
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/mkp-pos-cashier-api/internal/domain/sale/model/dto"
+	"github.com/mkp-pos-cashier-api/internal/domain/product/model/dto"
 	"github.com/mkp-pos-cashier-api/shared"
 	"github.com/mkp-pos-cashier-api/transport/http/response"
 )
@@ -14,7 +14,7 @@ import (
 // CreateNewProduct Create a new product
 // @Summary Create a new product
 // @Description This endpoint for create a new product.
-// @Tags sale
+// @Tags product
 // @Param request body dto.CreateProductRequest true "Required body to create a new product"
 // @Produce json
 // @Success 201 {object} response.Base
@@ -23,7 +23,7 @@ import (
 // @Failure 500 {object} response.Base
 // @Security BearerAuth
 // @Router /v1/products [post]
-func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		response.WithError(w, err)
@@ -50,7 +50,7 @@ func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg, err := h.SaleService.CreateNewProduct(request)
+	msg, err := h.ProductService.CreateNewProduct(request)
 	if err != nil {
 		response.WithError(w, err)
 		return
@@ -61,7 +61,7 @@ func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 // ViewProduct View all product
 // @Summary View product
 // @Description This endpoint for view all product.
-// @Tags sale
+// @Tags product
 // @Produce json
 // @Param page query string false "Number of page"
 // @Param pageSize query string false "Total data per Page"
@@ -71,7 +71,7 @@ func (h *SaleHandler) CreateNewProduct(w http.ResponseWriter, r *http.Request) {
 // @Failure 500 {object} response.Base
 // @Security BearerAuth
 // @Router /v1/products [get]
-func (h *SaleHandler) ViewProduct(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) ViewProduct(w http.ResponseWriter, r *http.Request) {
 	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 	pageSize, _ := strconv.Atoi(r.URL.Query().Get("pageSize"))
 
@@ -82,7 +82,7 @@ func (h *SaleHandler) ViewProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, metadata, err := h.SaleService.GetProductList(request)
+	result, metadata, err := h.ProductService.GetProductList(request)
 	if err != nil {
 		response.WithError(w, err)
 		return

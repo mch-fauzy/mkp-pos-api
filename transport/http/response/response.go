@@ -37,7 +37,7 @@ func WithMetadata(w http.ResponseWriter, code int, jsonPayload interface{}, meta
 	respond(w, code, Base{Data: &jsonPayload, Metadata: &metadata})
 }
 
-// WithMetadata sends a response containing a JSON object with metadata
+// WithErrorAndMessage sends a response containing an error message and a simple text message
 func WithErrorAndMessage(w http.ResponseWriter, err error, message string) {
 	code := failure.GetCode(err)
 	errMsg := err.Error()

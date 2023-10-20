@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 
-	"github.com/mkp-pos-cashier-api/internal/domain/sale/model"
+	"github.com/mkp-pos-cashier-api/internal/domain/product/model"
 	"github.com/mkp-pos-cashier-api/shared/failure"
 	"github.com/rs/zerolog/log"
 )
@@ -41,12 +41,12 @@ const (
 	`
 )
 
-type ProductRepository interface {
+type ProductManagementRepository interface {
 	CreateProduct(createtProduct *model.CreateProduct) error
 	GetProducts(pagination model.Pagination) (model.ProductList, error)
 }
 
-func (r *SaleRepositoryPostgres) CreateProduct(createtProduct *model.CreateProduct) error {
+func (r *ProductRepositoryPostgres) CreateProduct(createtProduct *model.CreateProduct) error {
 	query := fmt.Sprintf(createNewProductQuery)
 	_, err := r.DB.Write.Exec(
 		query,
@@ -66,7 +66,7 @@ func (r *SaleRepositoryPostgres) CreateProduct(createtProduct *model.CreateProdu
 	return nil
 }
 
-func (r *SaleRepositoryPostgres) IsExistProductById(id int) (bool, error) {
+func (r *ProductRepositoryPostgres) IsExistProductById(id int) (bool, error) {
 	query := fmt.Sprintf(checkProductByIdQuery)
 	count := 0
 	err := r.DB.Read.Get(&count, query, id)
@@ -78,7 +78,7 @@ func (r *SaleRepositoryPostgres) IsExistProductById(id int) (bool, error) {
 	return count > 0, nil
 }
 
-func (r *SaleRepositoryPostgres) GetProducts(pagination model.Pagination) (model.ProductList, error) {
+func (r *ProductRepositoryPostgres) GetProducts(pagination model.Pagination) (model.ProductList, error) {
 	query := fmt.Sprintf(selectProductQuery)
 
 	var args []interface{}
