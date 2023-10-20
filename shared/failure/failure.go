@@ -43,6 +43,14 @@ func Unauthorized(msg string) error {
 	}
 }
 
+// Forbidden returns a new Failure with code for forbidden requests.
+func Forbidden(msg string) error {
+	return &Failure{
+		Code:    http.StatusForbidden,
+		Message: msg,
+	}
+}
+
 // InternalError returns a new Failure with code for internal error and message derived from an error interface.
 func InternalError(err error) error {
 	if err != nil {

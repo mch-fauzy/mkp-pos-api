@@ -13,7 +13,7 @@ func SignJWTToken(username, role string, jwtAccessKey []byte) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": username,
 		"role":     role,
-		"exp":      time.Now().Add(time.Hour * 2).Unix(),
+		"exp":      time.Now().Add(time.Hour * 1).Unix(),
 	})
 
 	// Sign the token with the retrieved secret key

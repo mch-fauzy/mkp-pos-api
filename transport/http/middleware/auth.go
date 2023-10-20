@@ -7,6 +7,7 @@ import (
 	"github.com/mkp-pos-cashier-api/configs"
 	"github.com/mkp-pos-cashier-api/infras"
 	"github.com/mkp-pos-cashier-api/shared"
+	"github.com/mkp-pos-cashier-api/shared/failure"
 	"github.com/mkp-pos-cashier-api/transport/http/response"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -37,7 +38,8 @@ func (a *Authentication) VerifyJWT(next http.Handler) http.Handler {
 
 		// Check if the token is present
 		if tokenString == "" {
-			response.WithMessage(w, http.StatusUnauthorized, "Invalid token")
+			err := failure.Unauthorized("Missing token")
+			response.WithError(w, err)
 			return
 		}
 
@@ -70,8 +72,14 @@ func (a *Authentication) VerifyJWT(next http.Handler) http.Handler {
 			return []byte(a.CFG.App.JWTAccessKey), nil
 		})
 
-		if err != nil || !token.Valid {
-			response.WithMessage(w, http.StatusUnauthorized, "Unauthorized")
+		if err != nil {
+			response.WithError(w, err)
+			return
+		}
+
+		if !token.Valid {
+			err = failure.Unauthorized("Invalid token")
+			response.WithError(w, err)
 			return
 		}
 
@@ -82,8 +90,14 @@ func (a *Authentication) VerifyJWT(next http.Handler) http.Handler {
 func (a *Authentication) IsAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		userRole, err := shared.GetRoleFromContext(r)
-		if err != nil || userRole != shared.AdminRole {
-			response.WithMessage(w, http.StatusForbidden, "Forbidden")
+		if err != nil {
+			response.WithError(w, err)
+			return
+		}
+
+		if userRole != shared.AdminRole {
+			err = failure.Forbidden("Forbidden")
+			response.WithError(w, err)
 			return
 		}
 
@@ -94,8 +108,14 @@ func (a *Authentication) IsAdmin(next http.Handler) http.Handler {
 func (a *Authentication) IsCashier(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		userRole, err := shared.GetRoleFromContext(r)
-		if err != nil || userRole != shared.CashierRole {
-			response.WithMessage(w, http.StatusForbidden, "Forbidden")
+		if err != nil {
+			response.WithError(w, err)
+			return
+		}
+
+		if userRole != shared.CashierRole {
+			err = failure.Forbidden("Forbidden")
+			response.WithError(w, err)
 			return
 		}
 
