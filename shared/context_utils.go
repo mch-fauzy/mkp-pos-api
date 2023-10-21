@@ -8,14 +8,14 @@ import (
 )
 
 const (
-	usernameKey = "username"
-	roleKey     = "role"
+	UsernameKey = "username"
+	RoleKey     = "role"
 	tokenKey    = "token"
 )
 
 // GetUsernameFromContext retrieves the username from the request context.
 func GetUsernameFromContext(r *http.Request) (string, error) {
-	username, ok := r.Context().Value(usernameKey).(string)
+	username, ok := r.Context().Value(UsernameKey).(string)
 	if !ok {
 		return "", failure.BadRequestFromString("Username not found in context")
 	}
@@ -23,7 +23,7 @@ func GetUsernameFromContext(r *http.Request) (string, error) {
 }
 
 func GetRoleFromContext(r *http.Request) (string, error) {
-	role, ok := r.Context().Value(roleKey).(string)
+	role, ok := r.Context().Value(RoleKey).(string)
 	if !ok {
 		return "", failure.BadRequestFromString("Role not found in context")
 	}
@@ -40,11 +40,11 @@ func GetTokenFromContext(r *http.Request) (string, error) {
 
 // WithUsername adds the username to the context.
 func WithUsername(ctx context.Context, username string) context.Context {
-	return context.WithValue(ctx, usernameKey, username)
+	return context.WithValue(ctx, UsernameKey, username)
 }
 
 func WithRole(ctx context.Context, role string) context.Context {
-	return context.WithValue(ctx, roleKey, role)
+	return context.WithValue(ctx, RoleKey, role)
 }
 
 func WithToken(ctx context.Context, token string) context.Context {

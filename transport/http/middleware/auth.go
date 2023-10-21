@@ -47,24 +47,29 @@ func (a *Authentication) VerifyJWT(next http.Handler) http.Handler {
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 
 			if token.Method.Alg() != jwt.SigningMethodHS256.Name {
-				return nil, jwt.ErrSignatureInvalid
+				err := failure.InternalError(jwt.ErrSignatureInvalid)
+				return nil, err
 			}
 
 			claims, ok := token.Claims.(jwt.MapClaims)
 			if !ok {
-				return nil, jwt.ErrInvalidKeyType
+				err := failure.InternalError(jwt.ErrInvalidKeyType)
+				return nil, err
 			}
 
-			userRole, ok := claims["role"].(string)
+			userRole, ok := claims[shared.RoleKey].(string)
 			if !ok {
-				return nil, jwt.ErrInvalidKeyType
+				err := failure.InternalError(jwt.ErrInvalidKeyType)
+				return nil, err
 			}
 
-			userUsername, ok := claims["username"].(string)
+			userUsername, ok := claims[shared.UsernameKey].(string)
 			if !ok {
-				return nil, jwt.ErrInvalidKeyType
+				err := failure.InternalError(jwt.ErrInvalidKeyType)
+				return nil, err
 			}
 
+			// Add role and username to context
 			ctx := shared.WithRole(r.Context(), userRole)
 			ctx = shared.WithUsername(ctx, userUsername)
 			r = r.WithContext(ctx)
@@ -89,6 +94,7 @@ func (a *Authentication) VerifyJWT(next http.Handler) http.Handler {
 
 func (a *Authentication) IsAdmin(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Get role from context
 		userRole, err := shared.GetRoleFromContext(r)
 		if err != nil {
 			response.WithError(w, err)
@@ -107,6 +113,7 @@ func (a *Authentication) IsAdmin(next http.Handler) http.Handler {
 
 func (a *Authentication) IsCashier(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Get role from context
 		userRole, err := shared.GetRoleFromContext(r)
 		if err != nil {
 			response.WithError(w, err)
