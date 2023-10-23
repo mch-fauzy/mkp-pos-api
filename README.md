@@ -90,11 +90,11 @@ The design ensures that information about users, customers, products, and sales 
 
 To access the API documentation using Swagger, follow these steps:
 
-1. Make sure the server is running locally.
-2. Open your web browser and go to [http://localhost:8080/swagger/doc.json/](http://localhost:8080/swagger/doc.json/).
-3. You'll see the Swagger UI interface with a list of endpoints, request parameters, and example requests/responses.
-4. You can interact with the API directly from the Swagger interface.
-5. You can also use Postman Collection provided `mkp-pos-api.postman_collection.json` to interact with the endpoint.
+1. Make sure the server is running locally
+2. Open your web browser and go to [http://localhost:8080/swagger/doc.json/](http://localhost:8080/swagger/doc.json/)
+3. You'll see the Swagger UI interface with a list of endpoints, request parameters, and example requests/responses
+4. You can interact with the API directly from the Swagger interface
+5. You can also use Postman Collection provided `mkp-pos-api.postman_collection.json` to interact with the endpoint
 
 ## API Endpoints
 
