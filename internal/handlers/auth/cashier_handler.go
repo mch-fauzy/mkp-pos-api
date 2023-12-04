@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/mkp-pos-cashier-api/internal/domain/user/model/dto"
+	"github.com/mkp-pos-cashier-api/internal/domain/auth/model/dto"
 	"github.com/mkp-pos-cashier-api/transport/http/response"
 )
 
@@ -20,7 +20,7 @@ import (
 // @Failure 404 {object} response.Base
 // @Failure 500 {object} response.Base
 // @Router /v1/cashier/register [post]
-func (h *UserHandler) RegisterCashier(w http.ResponseWriter, r *http.Request) {
+func (h *AuthHandler) RegisterCashier(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		response.WithError(w, err)
@@ -40,7 +40,7 @@ func (h *UserHandler) RegisterCashier(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg, err := h.UserService.RegisterCashier(request)
+	msg, err := h.AuthService.RegisterCashier(request)
 	if err != nil {
 		response.WithError(w, err)
 		return
@@ -59,7 +59,7 @@ func (h *UserHandler) RegisterCashier(w http.ResponseWriter, r *http.Request) {
 // @Failure 404 {object} response.Base
 // @Failure 500 {object} response.Base
 // @Router /v1/cashier/login [post]
-func (h *UserHandler) LoginCashier(w http.ResponseWriter, r *http.Request) {
+func (h *AuthHandler) LoginCashier(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		response.WithError(w, err)
@@ -79,7 +79,7 @@ func (h *UserHandler) LoginCashier(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := h.UserService.LoginCashier(request)
+	result, err := h.AuthService.LoginCashier(request)
 	if err != nil {
 		response.WithError(w, err)
 		return

@@ -7,12 +7,12 @@ import (
 	"github.com/google/wire"
 	"github.com/mkp-pos-cashier-api/configs"
 	"github.com/mkp-pos-cashier-api/infras"
+	authRepository "github.com/mkp-pos-cashier-api/internal/domain/auth/repository"
+	authService "github.com/mkp-pos-cashier-api/internal/domain/auth/service"
 	productRepository "github.com/mkp-pos-cashier-api/internal/domain/product/repository"
 	productService "github.com/mkp-pos-cashier-api/internal/domain/product/service"
-	userRepository "github.com/mkp-pos-cashier-api/internal/domain/user/repository"
-	userService "github.com/mkp-pos-cashier-api/internal/domain/user/service"
+	authHandler "github.com/mkp-pos-cashier-api/internal/handlers/auth"
 	productHandler "github.com/mkp-pos-cashier-api/internal/handlers/product"
-	userHandler "github.com/mkp-pos-cashier-api/internal/handlers/user"
 	"github.com/mkp-pos-cashier-api/transport/http"
 	"github.com/mkp-pos-cashier-api/transport/http/middleware"
 	"github.com/mkp-pos-cashier-api/transport/http/router"
@@ -29,13 +29,13 @@ var persistences = wire.NewSet(
 )
 
 // Wiring for domain.
-var domainUser = wire.NewSet(
+var domainAuth = wire.NewSet(
 	// Service interface and implementation
-	userService.ProvideUserServiceImpl,
-	wire.Bind(new(userService.UserService), new(*userService.UserServiceImpl)),
+	authService.ProvideAuthServiceImpl,
+	wire.Bind(new(authService.AuthService), new(*authService.AuthServiceImpl)),
 	// Repository interface and implementation
-	userRepository.ProvideUserRepositoryPostgres,
-	wire.Bind(new(userRepository.UserRepository), new(*userRepository.UserRepositoryPostgres)),
+	authRepository.ProvideAuthRepositoryPostgres,
+	wire.Bind(new(authRepository.AuthRepository), new(*authRepository.AuthRepositoryPostgres)),
 )
 
 var domainProduct = wire.NewSet(
@@ -49,7 +49,7 @@ var domainProduct = wire.NewSet(
 
 // Wiring for all domains.
 var domains = wire.NewSet(
-	domainUser,
+	domainAuth,
 	domainProduct,
 )
 
@@ -59,8 +59,8 @@ var authMiddleware = wire.NewSet(
 
 // Wiring for HTTP routing.
 var routing = wire.NewSet(
-	wire.Struct(new(router.DomainHandlers), "UserHandler", "ProductHandler"),
-	userHandler.ProvideUserHandler,
+	wire.Struct(new(router.DomainHandlers), "AuthHandler", "ProductHandler"),
+	authHandler.ProvideAuthHandler,
 	productHandler.ProvideProductHandler,
 	router.ProvideRouter,
 )

@@ -3,13 +3,13 @@ package router
 
 import (
 	"github.com/go-chi/chi"
+	authHandler "github.com/mkp-pos-cashier-api/internal/handlers/auth"
 	productHandler "github.com/mkp-pos-cashier-api/internal/handlers/product"
-	userHandler "github.com/mkp-pos-cashier-api/internal/handlers/user"
 )
 
 // DomainHandlers is a struct that contains all domain-specific handlers.
 type DomainHandlers struct {
-	UserHandler    userHandler.UserHandler
+	AuthHandler    authHandler.AuthHandler
 	ProductHandler productHandler.ProductHandler
 }
 
@@ -28,7 +28,7 @@ func ProvideRouter(domainHandlers DomainHandlers) Router {
 // SetupRoutes sets up all routing for this server.
 func (r *Router) SetupRoutes(mux *chi.Mux) {
 	mux.Route("/v1", func(rc chi.Router) {
-		r.DomainHandlers.UserHandler.Router(rc)
+		r.DomainHandlers.AuthHandler.Router(rc)
 		r.DomainHandlers.ProductHandler.Router(rc)
 	})
 }

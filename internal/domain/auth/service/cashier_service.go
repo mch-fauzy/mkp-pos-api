@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/mkp-pos-cashier-api/internal/domain/user/model/dto"
+	"github.com/mkp-pos-cashier-api/internal/domain/auth/model/dto"
 	"github.com/mkp-pos-cashier-api/shared"
 	"github.com/mkp-pos-cashier-api/shared/failure"
 	"github.com/rs/zerolog/log"
@@ -12,7 +12,7 @@ type CashierService interface {
 	LoginCashier(req dto.LoginCashierRequest) (dto.LoginResponse, error)
 }
 
-func (s *UserServiceImpl) RegisterCashier(req dto.RegisterCashierRequest) (string, error) {
+func (s *AuthServiceImpl) RegisterCashier(req dto.RegisterCashierRequest) (string, error) {
 	message := "Failed"
 
 	hashedPassword, err := shared.HashPassword(req.Password)
@@ -23,7 +23,7 @@ func (s *UserServiceImpl) RegisterCashier(req dto.RegisterCashierRequest) (strin
 	req.Password = hashedPassword
 	cashierUser := req.ToModel()
 
-	err = s.UserRepository.CreateUser(&cashierUser)
+	err = s.AuthRepository.CreateUser(&cashierUser)
 	if err != nil {
 		log.Error().Err(err).Msg("[RegisterCashier] Failed to create user cashier")
 		return message, err
@@ -33,9 +33,9 @@ func (s *UserServiceImpl) RegisterCashier(req dto.RegisterCashierRequest) (strin
 	return message, nil
 }
 
-func (s *UserServiceImpl) LoginCashier(req dto.LoginCashierRequest) (dto.LoginResponse, error) {
+func (s *AuthServiceImpl) LoginCashier(req dto.LoginCashierRequest) (dto.LoginResponse, error) {
 
-	user, err := s.UserRepository.GetUserByUsername(req.Username)
+	user, err := s.AuthRepository.GetUserByUsername(req.Username)
 	if err != nil {
 		log.Error().Err(err).Msg("[LoginCashier] Failed to retrieve user")
 		return dto.LoginResponse{}, err

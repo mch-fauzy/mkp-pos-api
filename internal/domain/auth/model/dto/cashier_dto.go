@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/gofrs/uuid"
-	"github.com/mkp-pos-cashier-api/internal/domain/user/model"
+	"github.com/mkp-pos-cashier-api/internal/domain/auth/model"
 	"github.com/mkp-pos-cashier-api/shared"
 	"github.com/mkp-pos-cashier-api/shared/failure"
 )

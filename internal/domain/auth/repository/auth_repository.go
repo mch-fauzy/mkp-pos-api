@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 
-	"github.com/mkp-pos-cashier-api/internal/domain/user/model"
+	"github.com/mkp-pos-cashier-api/internal/domain/auth/model"
 	"github.com/mkp-pos-cashier-api/shared/failure"
 	"github.com/rs/zerolog/log"
 )
@@ -33,12 +33,12 @@ const (
 	`
 )
 
-type CashierRepository interface {
+type AuthManagementRepository interface {
 	CreateUser(createtUser *model.CreateUser) error
 	GetUserByUsername(username string) (*model.UserByUsername, error)
 }
 
-func (r *UserRepositoryPostgres) CreateUser(createtUser *model.CreateUser) error {
+func (r *AuthRepositoryPostgres) CreateUser(createtUser *model.CreateUser) error {
 
 	exist, err := r.IsExistUserByUsername(createtUser.Username)
 	if err != nil {
@@ -70,7 +70,7 @@ func (r *UserRepositoryPostgres) CreateUser(createtUser *model.CreateUser) error
 	return nil
 }
 
-func (r *UserRepositoryPostgres) IsExistUserByUsername(username string) (bool, error) {
+func (r *AuthRepositoryPostgres) IsExistUserByUsername(username string) (bool, error) {
 	query := fmt.Sprintf(checkUserByUsernameQuery)
 	count := 0
 	err := r.DB.Read.Get(&count, query, username)
@@ -82,7 +82,7 @@ func (r *UserRepositoryPostgres) IsExistUserByUsername(username string) (bool, e
 	return count > 0, nil
 }
 
-func (r *UserRepositoryPostgres) GetUserByUsername(username string) (*model.UserByUsername, error) {
+func (r *AuthRepositoryPostgres) GetUserByUsername(username string) (*model.UserByUsername, error) {
 	exist, err := r.IsExistUserByUsername(username)
 	if err != nil {
 		log.Error().Err(err).Msg("[GetUserByUsername] Failed checking user whether already exists or not")
