@@ -111,7 +111,7 @@ type ProductResponse struct {
 	UpdatedAt time.Time   `json:"updatedAt"`
 	UpdatedBy string      `json:"updatedBy"`
 	DeletedAt null.Time   `json:"deletedAt"`
-	DeletedBy null.String `json:"DeletedBy"`
+	DeletedBy null.String `json:"deletedBy"`
 }
 
 type ProductListResponse []ProductResponse
