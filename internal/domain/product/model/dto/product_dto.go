@@ -116,7 +116,7 @@ type ProductResponse struct {
 
 type ProductListResponse []ProductResponse
 
-func NewProductListResponse(product model.Product) ProductResponse {
+func NewProductResponse(product model.Product) ProductResponse {
 	return ProductResponse{
 		Id:        product.Id,
 		Name:      product.Name,
@@ -134,7 +134,7 @@ func NewProductListResponse(product model.Product) ProductResponse {
 func BuildProductListResponse(productList model.ProductList) ProductListResponse {
 	results := ProductListResponse{}
 	for _, product := range productList {
-		results = append(results, NewProductListResponse(*product))
+		results = append(results, NewProductResponse(*product))
 	}
 	return results
 }
