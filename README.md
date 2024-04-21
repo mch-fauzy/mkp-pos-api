@@ -1,17 +1,19 @@
-# Name: Muchamad Fauzy
-
 # Mitra Kasih Perkasa POS API
 
 A Point of Sale (POS) API for Managing Sales and Inventory with JWT Authorization and Authentication
 
 ## Table of Contents
 
+- [Requirement](#requirement)
 - [Description](#description)
 - [Key Features](#key-features)
 - [Setup and Installation](#setup-and-installation)
 - [Swagger Documentation](#swagger-documentation)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
+
+## Requirement
+- Go version 1.8.x
 
 ## Description
 
